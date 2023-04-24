@@ -16,11 +16,11 @@ class Router
         $method = $_POST['_method'] ?? $_SERVER['REQUEST_METHOD'];
         $controllerAndAction = $this->route($uri, $method);
 
-        if (file_exists('./Controllers/' . $controllerAndAction['className'] . '.php')) {
+        if (file_exists('Controllers/' . $controllerAndAction['className'] . '.php')) {
             $this->currentController = $controllerAndAction['className'];
         }
 
-        require_once './Controllers/' . $this->currentController . '.php';
+        require_once 'Controllers/' . $this->currentController . '.php';
 
         if (method_exists($this->currentController, $controllerAndAction['methodName'])) {
             $this->currentMethod = $controllerAndAction['methodName'];
