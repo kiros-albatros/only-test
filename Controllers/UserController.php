@@ -194,7 +194,7 @@ class UserController extends Controller
 
             if ($_POST['password'] !== $_POST['repeat_password']) {
                 $data['password_err'] = 'Пароли должны быть одинаковыми';
-                $this->view('register', $data);
+                $this->view('profile', $data);
                 return;
             }
 
@@ -211,7 +211,7 @@ class UserController extends Controller
                 $foundByEmailUser = $this->userModel->findUserByEmail(trim($_POST['email']));
                 if ($id !== $foundByEmailUser->id) {
                     $data['email_err'] = 'Эта почта уже используется';
-                    $this->view('register', $data);
+                    $this->view('profile', $data);
                     return;
                 }
             }
@@ -220,7 +220,7 @@ class UserController extends Controller
                 $foundByTelephoneUser = $this->userModel->findUserByTelephone(trim($_POST['telephone']));
                 if ($id !== $foundByTelephoneUser->id) {
                     $data['telephone_err'] = 'Этот номер уже используется';
-                    $this->view('register', $data);
+                    $this->view('profile', $data);
                     return;
                 }
             }
