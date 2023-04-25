@@ -44,4 +44,18 @@ class UserModel
         $this->db->bind(":password", $data['password']);
         $this->db->execute();
     }
+
+    public function updateUser($id, $data)
+    {
+        $user = $this->db->getById($id, 'Users');
+        if ($user) {
+            $this->db->query('UPDATE Users SET name = :name, email = :email, telephone = :telephone, password = :password WHERE id = :id');
+            $this->db->bind(':id', $id);
+            $this->db->bind(":name", $data['name']);
+            $this->db->bind(":email", $data['email']);
+            $this->db->bind(":telephone", $data['telephone']);
+            $this->db->bind(":password", $data['password']);
+            $this->db->execute();
+        }
+    }
 }

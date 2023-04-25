@@ -7,7 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <link type="text/css" href="style.css" rel="stylesheet" media="all"/>
+    <link type="text/css" href="/style.css" rel="stylesheet" media="all"/>
     <title>Test for Only</title>
 </head>
 <body>
@@ -20,7 +20,7 @@
         <div class="header__column">
             <?php
             if (isset($_SESSION['user_id'])) { ?>
-                <a href="<?= URLROOT ?>/profile/<?= $_SESSION['user_id'] ?>">Личный кабинет</a>
+                <a href="<?= URLROOT ?>/profile">Личный кабинет</a>
                 <a href="<?= URLROOT ?>/logout">Выйти</a>
             <?php } else { ?>
                 <a href="<?= URLROOT ?>/login">Войти</a>

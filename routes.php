@@ -5,5 +5,5 @@ const ROUTES = [
     'register' => ['GET' => 'UserController::getRegister()', 'POST' => 'UserController::register()'],
     'login' => ['GET' => 'UserController::getLogin()', 'POST' => 'UserController::login()'],
     'logout' => ['GET' => 'UserController::logout()'],
-    'profile/{id}' => ['GET' => 'UserController::getProfile()', 'POST' => 'UserController::editProfile()'],
+    'profile' => ['GET' => 'UserController::getProfile()', 'POST' => 'UserController::editProfile()'],
 ];

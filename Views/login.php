@@ -16,3 +16,4 @@ include_once 'partial/header.php'; ?>
         </form>
     </div>
 <?php
+include_once 'partial/footer.php'; ?>

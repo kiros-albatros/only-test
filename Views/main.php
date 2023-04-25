@@ -15,3 +15,5 @@ include_once 'partial/header.php'; ?>
             информацию (имя, телефон, почта, пароль).
         </li>
     </ol>
+<?php
+include_once 'partial/footer.php';

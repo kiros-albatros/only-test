@@ -53,10 +53,7 @@ class UserController extends Controller
                     $user = $this->userModel->findUserByTelephone($data['email_tel']);
                 }
                 if ($user) {
-                    if ($user->password === $data['password']) {
-                        // todo переделать на проверку хеша
-                        $user->password === $data['password'];
-                        //    if (password_verify($data['password'], $user->password)) {
+                   if ($user->password === $data['password']) {
                         $this->createUserSession($user);
                         $path = 'Location:' . URLROOT;
                         header($path);
@@ -121,16 +118,16 @@ class UserController extends Controller
         ) {
             if ($_POST['password'] !== $_POST['repeat_password']) {
                 $data['password_err'] = 'Пароли должны быть одинаковыми';
-               // $this->view('register', $data);
+                // $this->view('register', $data);
             } elseif ($this->userModel->findUserByName(trim($_POST['name']))) {
                 $data['name_err'] = 'Это имя уже занято';
-              //  $this->view('register', $data);
+                //  $this->view('register', $data);
             } elseif ($this->userModel->findUserByEmail(trim($_POST['email']))) {
                 $data['email_err'] = 'Эта почта уже используется';
-              //  $this->view('register', $data);
+                //  $this->view('register', $data);
             } elseif ($this->userModel->findUserByTelephone(trim($_POST['name']))) {
                 $data['telephone_err'] = 'Этот номер уже используется';
-              //  $this->view('register', $data);
+                //  $this->view('register', $data);
             } else {
                 $userData['name'] = $this->sanitize(trim($_POST['name']));
                 $userData['email'] = $this->sanitize(trim($_POST['email']));
@@ -144,7 +141,7 @@ class UserController extends Controller
             }
         } else {
             $data['empty_err'] = 'Заполните все поля';
-          //  $this->view('register', $data);
+            //  $this->view('register', $data);
         }
         $data['name'] = $_POST['name'];
         $data['email'] = $_POST['email'];
@@ -153,19 +150,101 @@ class UserController extends Controller
         $this->view('register', $data);
     }
 
-    public function getProfile($id) {
-        $user = $this->userModel->findUserById($id);
+    public function getProfile()
+    {
+        if (!isset($_SESSION['user_id'])) {
+            $path = 'Location:' . URLROOT;
+            header($path);
+        } else {
+            $user = $this->userModel->findUserById($_SESSION['user_id']);
+            $data = [
+                'name' => $user->name,
+                'email' => $user->email,
+                'telephone' => $user->telephone,
+                'password' => $user->password,
+                'name_err' => '',
+                'email_err' => '',
+                'telephone_err' => '',
+                'password_err' => '',
+                'empty_err' => ''
+            ];
+            $this->view('profile', $data);
+        }
+    }
+
+    public function editProfile()
+    {
+        $id = $_SESSION['user_id'];
         $data = [
-            'name' => $user->name,
-            'email' => $user->email,
-            'telephone' => $user->telephone,
-            'password' => $user->password,
+            'name' => '',
+            'email' => '',
+            'telephone' => '',
+            'password' => '',
             'name_err' => '',
             'email_err' => '',
             'telephone_err' => '',
             'password_err' => '',
             'empty_err' => ''
         ];
-        $this->view('profile', $data);
+        if (!empty(trim($_POST['name'])) && !empty(trim($_POST['email']))
+            && !empty(trim($_POST['telephone'])) && !empty(trim($_POST['password']))
+            && !empty(trim($_POST['repeat_password']))
+        ) {
+
+            $data['name'] = $_POST['name'];
+            $data['email'] = $_POST['email'];
+            $data['telephone'] = $_POST['telephone'];
+            $data['password'] = $_POST['password'];
+
+            if ($_POST['password'] !== $_POST['repeat_password']) {
+                $data['password_err'] = 'Пароли должны быть одинаковыми';
+                $this->view('register', $data);
+                return;
+            }
+
+            if ($this->userModel->findUserByName(trim($_POST['name']))) {
+                $foundByNameUser = $this->userModel->findUserByName(trim($_POST['name']));
+                if ($id !== $foundByNameUser->id) {
+                    $data['name_err'] = 'Это имя уже занято';
+                    $this->view('register', $data);
+                    return;
+                }
+            }
+
+            if ($this->userModel->findUserByEmail(trim($_POST['email']))) {
+                $foundByEmailUser = $this->userModel->findUserByEmail(trim($_POST['email']));
+                if ($id !== $foundByEmailUser->id) {
+                    $data['email_err'] = 'Эта почта уже используется';
+                    $this->view('register', $data);
+                    return;
+                }
+            }
+
+            if ($this->userModel->findUserByTelephone(trim($_POST['name']))) {
+                $foundByTelephoneUser = $this->userModel->findUserByTelephone(trim($_POST['name']));
+                if ($id !== $foundByTelephoneUser->id) {
+                    $data['telephone_err'] = 'Этот номер уже используется';
+                    $this->view('register', $data);
+                    return;
+                }
+            }
+
+            $userData['name'] = $this->sanitize(trim($_POST['name']));
+            $userData['email'] = $this->sanitize(trim($_POST['email']));
+            $userData['telephone'] = $this->sanitize(trim($_POST['telephone']));
+            $userData['password'] = $this->sanitize(trim($_POST['password']));
+            $this->userModel->updateUser($id, $userData);
+            $user = $this->userModel->findUserById($id);
+
+            $data['name'] = $user->name;
+            $data['email'] = $user->email;
+            $data['telephone'] = $user->telephone;
+            $data['password'] = $user->password;
+            $this->view('profile', $data);
+            return;
+        } else {
+            $data['empty_err'] = 'Заполните все поля';
+            $this->view('profile', $data);
+        }
     }
 }

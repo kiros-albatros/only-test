@@ -1,8 +1,8 @@
 <?php
 include_once 'partial/header.php'; ?>
-<div class="register">
+<div class="profile">
     <h3>Личный кабинет</h3>
-    <form class="register__form" action="<?=URLROOT?>/profile" method="post">
+    <form class="form" action="<?=URLROOT?>/profile" method="post">
         <label for="name">Имя</label>
         <input type="text" name="name" required value="<?= $data['name']; ?>">
         <?= (!empty($data['name_err'])) ? '<p class="invalid">' . $data['name_err'] . '</p>': ''; ?>
@@ -17,8 +17,8 @@ include_once 'partial/header.php'; ?>
         <?= (!empty($data['password_err'])) ? '<p class="invalid">' . $data['password_err'] . '</p>': ''; ?>
         <label for="repeat_password">Повторите пароль</label>
         <input type="password" name="repeat_password" required value="<?= $data['password']; ?>">
-        <input type="submit" value="Зарегистрироваться">
+        <input type="submit" value="Изменить данные">
     </form>
 </div>
 <?php
-include_once 'partial/footer.php'; ?>
+include_once 'partial/footer.php';
