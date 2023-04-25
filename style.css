@@ -27,6 +27,7 @@ li, p {
     background-color: #4CAF50;
     width: 100%;
 }
+
 .header a {
     color: white;
     text-decoration: none;
@@ -51,7 +52,7 @@ li, p {
 
 .register, .profile {
     max-width: 500px;
-    margin:0 auto;
+    margin: 0 auto;
 }
 
 .form {

@@ -12,8 +12,7 @@ class Controller
         if(file_exists('Views/' . $view . '.php')){
             require_once 'Views/' . $view . '.php';
         } else {
-            // View does not exist
-            die('View does not exist');
+            die('Шаблона не существует');
         }
     }
 }

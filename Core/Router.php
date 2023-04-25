@@ -18,16 +18,14 @@ class Router
 
         if (file_exists('Controllers/' . $controllerAndAction['className'] . '.php')) {
             $this->currentController = $controllerAndAction['className'];
+            require_once 'Controllers/' . $this->currentController . '.php';
         }
-
-        require_once 'Controllers/' . $this->currentController . '.php';
 
         if (method_exists($this->currentController, $controllerAndAction['methodName'])) {
             $this->currentMethod = $controllerAndAction['methodName'];
         }
 
         $this->params = $controllerAndAction['arg'];
-
         call_user_func_array([new $this->currentController, $this->currentMethod], $this->params);
     }
 
