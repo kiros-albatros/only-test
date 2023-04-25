@@ -123,7 +123,7 @@ class UserController extends Controller
                 $data['name_err'] = 'Это имя уже занято';
             } elseif ($this->userModel->findUserByEmail(trim($_POST['email']))) {
                 $data['email_err'] = 'Эта почта уже используется';
-            } elseif ($this->userModel->findUserByTelephone(trim($_POST['name']))) {
+            } elseif ($this->userModel->findUserByTelephone(trim($_POST['telephone']))) {
                 $data['telephone_err'] = 'Этот номер уже используется';
             } else {
                 $userData['name'] = $this->sanitize(trim($_POST['name']));
