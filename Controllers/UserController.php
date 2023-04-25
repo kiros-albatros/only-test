@@ -216,8 +216,8 @@ class UserController extends Controller
                 }
             }
 
-            if ($this->userModel->findUserByTelephone(trim($_POST['name']))) {
-                $foundByTelephoneUser = $this->userModel->findUserByTelephone(trim($_POST['name']));
+            if ($this->userModel->findUserByTelephone(trim($_POST['telephone']))) {
+                $foundByTelephoneUser = $this->userModel->findUserByTelephone(trim($_POST['telephone']));
                 if ($id !== $foundByTelephoneUser->id) {
                     $data['telephone_err'] = 'Этот номер уже используется';
                     $this->view('register', $data);
