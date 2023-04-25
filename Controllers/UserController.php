@@ -202,7 +202,7 @@ class UserController extends Controller
                 $foundByNameUser = $this->userModel->findUserByName(trim($_POST['name']));
                 if ($id !== $foundByNameUser->id) {
                     $data['name_err'] = 'Это имя уже занято';
-                    $this->view('register', $data);
+                    $this->view('profile', $data);
                     return;
                 }
             }
