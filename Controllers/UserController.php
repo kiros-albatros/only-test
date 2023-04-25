@@ -43,7 +43,8 @@ class UserController extends Controller
             'email_tel_err' => '',
             'empty_err' => ''
         ];
-        if (isset($_POST['email_tel']) && isset($_POST['password'])) {
+        if (strlen($_POST['g-recaptcha-response']) > 0 &&
+            isset($_POST['email_tel']) && isset($_POST['password'])) {
             if (!empty(trim($_POST['email_tel'])) && !empty(trim($_POST['password']))) {
                 $data ['email_tel'] = $this->sanitize($_POST['email_tel']);
                 $data['password'] = $this->sanitize($_POST['password']);
@@ -53,7 +54,7 @@ class UserController extends Controller
                     $user = $this->userModel->findUserByTelephone($data['email_tel']);
                 }
                 if ($user) {
-                   if ($user->password === $data['password']) {
+                    if ($user->password === $data['password']) {
                         $this->createUserSession($user);
                         $path = 'Location:' . URLROOT;
                         header($path);
@@ -118,16 +119,12 @@ class UserController extends Controller
         ) {
             if ($_POST['password'] !== $_POST['repeat_password']) {
                 $data['password_err'] = 'Пароли должны быть одинаковыми';
-                // $this->view('register', $data);
             } elseif ($this->userModel->findUserByName(trim($_POST['name']))) {
                 $data['name_err'] = 'Это имя уже занято';
-                //  $this->view('register', $data);
             } elseif ($this->userModel->findUserByEmail(trim($_POST['email']))) {
                 $data['email_err'] = 'Эта почта уже используется';
-                //  $this->view('register', $data);
             } elseif ($this->userModel->findUserByTelephone(trim($_POST['name']))) {
                 $data['telephone_err'] = 'Этот номер уже используется';
-                //  $this->view('register', $data);
             } else {
                 $userData['name'] = $this->sanitize(trim($_POST['name']));
                 $userData['email'] = $this->sanitize(trim($_POST['email']));
@@ -141,7 +138,6 @@ class UserController extends Controller
             }
         } else {
             $data['empty_err'] = 'Заполните все поля';
-            //  $this->view('register', $data);
         }
         $data['name'] = $_POST['name'];
         $data['email'] = $_POST['email'];

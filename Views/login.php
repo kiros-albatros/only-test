@@ -12,6 +12,8 @@ include_once 'partial/header.php'; ?>
             <label for="password">Пароль</label>
             <input type="password" name="password">
             <?= (!empty($data['password_err'])) ? '<p class="invalid">' . $data['password_err'] . '</p>': ''; ?>
+            <div class="g-recaptcha" data-sitekey="6LeMP7clAAAAAG2YO48QSxMhNkdYC3_bZ2_ElHzb"></div>
+
             <input type="submit" value="Войти">
         </form>
     </div>
